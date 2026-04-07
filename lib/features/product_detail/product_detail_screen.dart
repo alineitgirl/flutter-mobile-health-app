@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:food_match/domain/providers/providers.dart';
@@ -69,7 +68,37 @@ class ProductDetailScreen extends ConsumerWidget {
               const Text('Конфликтующие ингредиенты', style: TextStyle(fontWeight: FontWeight.bold)),
               ...conflicts.map((c) => Text('• $c', style: const TextStyle(color: Colors.red))),
             ],
-            
+
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      ref.read(favoritesProvider.notifier).toggleFavorite(product);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Добавлено в Избранное')),
+                      );
+                    },
+                    icon: const Icon(Icons.favorite_border),
+                    label: const Text('В избранное'),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton.icon(
+                    onPressed: () {
+                      ref.read(shoppingListProvider.notifier).addToShoppingList(product);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Добавлено в список покупок')),
+                      );
+                    },
+                    icon: const Icon(Icons.shopping_cart_outlined),
+                    label: const Text('В покупки'),
+                  ),
+                ),
+              ],
+            ),
             const SizedBox(height: 32),
             const Text('Состав: ', style: TextStyle(fontWeight: FontWeight.bold)),
             Text(product.ingredients),

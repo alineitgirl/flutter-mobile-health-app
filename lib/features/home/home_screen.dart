@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../catalog/catalog_screen.dart';
-import '../profile/profile_screen.dart';
-import '../favorites/favorites_screen.dart';
+import '../../profile/profile_screen.dart';
 import '../shopping_list/shopping_list_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
