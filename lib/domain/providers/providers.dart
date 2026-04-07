@@ -44,3 +44,56 @@ final searchResultsProvider = FutureProvider.family<List<Product>, String>((ref,
   final repo = ref.watch(productRepositoryProvider);
   return repo.searchProducts(query);
 });
+
+final favoritesProvider = StateNotifierProvider<FavoritesNotifier, List<Product>>((ref) {
+  return FavoritesNotifier();
+});
+
+class FavoritesNotifier extends StateNotifier<List<Product>> {
+  FavoritesNotifier() : super([]) {
+    _loadFavorites();
+  }
+
+  final _box = Hive.box<Product>(HiveBoxes.favorites);
+
+  void _loadFavorites() {
+    state = _box.values.toList();
+  }
+
+  Future<void> toggleFavorite(Product product) async {
+    if (state.any((p) => p.id == product.id)) {
+      await _box.delete(product.id);
+    } else {
+      await _box.put(product.id, product);
+    }
+    _loadFavorites();
+  }
+}
+
+final shoppingListProvider = StateNotifierProvider<ShoppingListNotifier, List<Product>>((ref) {
+  return ShoppingListNotifier();
+});
+
+class ShoppingListNotifier extends StateNotifier<List<Product>> {
+  ShoppingListNotifier() : super([]) {
+    _loadShoppingList();
+  }
+
+  final _box = Hive.box<Product>(HiveBoxes.shoppingList);
+
+  void _loadShoppingList() {
+    state = _box.values.toList();
+  }
+
+  Future<void> addToShoppingList(Product product) async {
+    if (!state.any((p) => p.id == product.id)) {
+      await _box.put(product.id, product);
+      _loadShoppingList();
+    }
+  }
+
+  Future<void> removeFromShoppingList(String id) async {
+    await _box.delete(id);
+    _loadShoppingList();
+  }
+}
