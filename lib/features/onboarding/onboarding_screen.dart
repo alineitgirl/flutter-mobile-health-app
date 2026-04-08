@@ -47,10 +47,8 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
   }
 
   Future<void> _completeOnboarding(UserProfile profile) async {
-    // Save profile using provider
     await ref.read(userProfileProvider.notifier).saveProfile(profile);
 
-    // Mark onboarding as completed
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('onboarding_completed', true);
 
@@ -69,7 +67,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
         onPageChanged: (index) => setState(() => _currentPage = index),
         physics: const NeverScrollableScrollPhysics(),
         children: [
-          // Info pages
           for (final page in _pages)
             Padding(
               padding: const EdgeInsets.all(40.0),
@@ -94,7 +91,6 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
                 ],
               ),
             ),
-          // Profile form page
           Scaffold(
             appBar: AppBar(
               title: const Text('Немного о вас'),

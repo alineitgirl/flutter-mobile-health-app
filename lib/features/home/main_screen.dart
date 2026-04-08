@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/providers/providers.dart';
+import 'category_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -323,7 +324,17 @@ class _MainScreenState extends State<MainScreen> {
             itemBuilder: (context, index) {
               final category = categories[index];
               return GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => CategoryScreen(
+                        categoryTitle: category['title'] as String,
+                        emoji: category['emoji'] as String,
+                        categoryCount: category['count'] as String,
+                      ),
+                    ),
+                  );
+                },
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -391,6 +402,39 @@ class _MainScreenState extends State<MainScreen> {
   }
 
   Widget _buildHealthTips() {
+    final healthTips = [
+      {
+        'title': 'Пейте воду регулярно',
+        'description': 'Адекватное потребление воды помогает поддерживать правильный обмен веществ и улучшает пищеварение.',
+        'icon': Icons.water_drop_outlined,
+        'color': const Color(0xFF5AC8FA),
+      },
+      {
+        'title': 'Завтрак - самый важный прием пищи',
+        'description': 'Полноценный завтрак обеспечивает энергией на весь день и улучшает концентрацию.',
+        'icon': Icons.breakfast_dining,
+        'color': const Color(0xFFFFA500),
+      },
+      {
+        'title': 'Ешьте больше овощей',
+        'description': 'Овощи привносят витамины и минералы, необходимые для здоровья.',
+        'icon': Icons.eco_outlined,
+        'color': const Color(0xFF81C784),
+      },
+      {
+        'title': 'Регулярные упражнения',
+        'description': 'Физические упражнения помогают укрепить мышцы и повысить выносливость.',
+        'icon': Icons.fitness_center_outlined,
+        'color': const Color(0xFFE53935),
+      },
+      {
+        'title': 'Здоровый сон',
+        'description': 'Достаточное количество сна критично для восстановления организма.',
+        'icon': Icons.bedtime_outlined,
+        'color': const Color(0xFF673AB7),
+      },
+    ];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       child: Column(
@@ -406,74 +450,79 @@ class _MainScreenState extends State<MainScreen> {
             ),
           ),
           const SizedBox(height: 16),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(
-                color: Colors.grey.shade200,
-                width: 1,
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withAlpha(8),
-                  blurRadius: 12,
-                  offset: const Offset(0, 4),
-                ),
-              ],
-            ),
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 48,
-                  height: 48,
+          SizedBox(
+            height: 180,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              itemCount: healthTips.length,
+              separatorBuilder: (_, __) => const SizedBox(width: 12),
+              itemBuilder: (context, index) {
+                final tip = healthTips[index];
+                return Container(
+                  width: 280,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF81C784).withAlpha(25),
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  child: const Icon(
-                    Icons.lightbulb_outline,
-                    color: Color(0xFF81C784),
-                    size: 24,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                Text(
-                  'Пейте воду регулярно',
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black,
-                    letterSpacing: -0.3,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Адекватное потребление воды помогает поддерживать правильный обмен веществ и улучшает пищеварение.',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.black,
-                    letterSpacing: -0.2,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 16),
-                GestureDetector(
-                  onTap: () {},
-                  child: Text(
-                    'Узнать больше',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                      color: Color(0xFF2E7D32),
-                      letterSpacing: -0.3,
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.grey.shade200,
+                      width: 1,
                     ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withAlpha(8),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                ),
-              ],
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          color: (tip['color'] as Color).withAlpha(25),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          tip['icon'] as IconData,
+                          color: tip['color'] as Color,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        tip['title'] as String,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.black,
+                          letterSpacing: -0.3,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 8),
+                      Expanded(
+                        child: Text(
+                          tip['description'] as String,
+                          style: TextStyle(
+                            fontSize: 13,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black.withAlpha(128),
+                            letterSpacing: -0.2,
+                            height: 1.4,
+                          ),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
           ),
         ],
