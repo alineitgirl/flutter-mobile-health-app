@@ -50,7 +50,7 @@ class ProductDetailScreen extends ConsumerWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: statusColor.withOpacity(0.1),
+                color: statusColor.withAlpha(25),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Row(

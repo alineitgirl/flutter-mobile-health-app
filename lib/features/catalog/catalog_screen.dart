@@ -14,7 +14,7 @@ class _CatalogScreenState extends ConsumerState<CatalogScreen> {
   final TextEditingController _searchController = TextEditingController();
 
   @override
-  Widget build(BuildContext) {
+  Widget build(BuildContext context) {
     final searchResults = ref.watch(searchResultsProvider(_searchController.text));
 
     return Padding(

@@ -1,41 +1,86 @@
-import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 part 'user_profile.g.dart';
 
 @HiveType(typeId: 1)
 class UserProfile extends HiveObject {
   @HiveField(0)
-  String? name;
+  String name;
 
   @HiveField(1)
-  int? age;
+  int age;
 
   @HiveField(2)
-  String? sex;
+  double height;
 
   @HiveField(3)
-  double? weight;
+  double weight;
 
   @HiveField(4)
-  double? height;
-
-  @HiveField(5)
-  String? activityLevel;
-
-  @HiveField(6)
-  String? goal;
-
-  @HiveField(7)
   List<String> restrictions;
 
+  @HiveField(5)
+  List<String> goals;
+
   UserProfile({
-    this.name,
-    this.age,
-    this.sex,
-    this.weight,
-    this.height,
-    this.activityLevel,
-    this.goal,
+    required this.name,
+    required this.age,
+    required this.height,
+    required this.weight,
+    required this.restrictions,
+    required this.goals,
+  });
+
+  factory UserProfile.initial() => UserProfile(
+    name: '',
+    age: 25,
+    height: 170.0,
+    weight: 70.0,
+    restrictions: [],
+    goals: [],
+  );
+
+  UserProfile copyWith({
+    String? name,
+    int? age,
+    double? height,
+    double? weight,
     List<String>? restrictions,
-  }) : restrictions = restrictions ?? [];
+    List<String>? goals,
+  }) {
+    return UserProfile(
+      name: name ?? this.name,
+      age: age ?? this.age,
+      height: height ?? this.height,
+      weight: weight ?? this.weight,
+      restrictions: restrictions ?? List<String>.from(this.restrictions),
+      goals: goals ?? List<String>.from(this.goals),
+    );
+  }
+}
+
+extension UserProfileExtensions on UserProfile {
+  static const List<String> allPossibleRestrictions = [
+    'Арахис',
+    'Глютен',
+    'Молоко',
+    'Яйца',
+    'Соевый',
+    'Рыба',
+    'Морепродукты',
+    'Орехи',
+    'Сахар',
+    'Лактоза',
+    'Фруктоза',
+  ];
+
+  static const List<String> allPossibleGoals = [
+    'Похудение',
+    'Набор массы',
+    'Поддержание веса',
+    'Безлактозное питание',
+    'Низкоуглеводное',
+    'Вегетарианское',
+    'Веганское',
+  ];
 }
