@@ -2,30 +2,62 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../domain/providers/providers.dart';
 
-class MainScreen extends ConsumerWidget {
+class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userProfile = ref.watch(userProfileProvider);
+  State<MainScreen> createState() => _MainScreenState();
+}
 
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildHeader(userProfile),
+class _MainScreenState extends State<MainScreen> {
+  bool _showProductDetail = false;
+  Map<String, dynamic>? _selectedProduct;
 
-          _buildQuickActions(),
+  void _showProductDetailModal(Map<String, dynamic> product) {
+    setState(() {
+      _selectedProduct = product;
+      _showProductDetail = true;
+    });
+  }
 
-          _buildFeaturedCategories(),
+  void _hideProductDetailModal() {
+    setState(() {
+      _showProductDetail = false;
+      _selectedProduct = null;
+    });
+  }
 
-          _buildHealthTips(),
+  @override
+  Widget build(BuildContext context) {
+    return Consumer(
+      builder: (context, ref, _) {
+        final userProfile = ref.watch(userProfileProvider);
 
-          _buildRecommendations(),
+        return Stack(
+          children: [
+            SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(userProfile),
 
-          const SizedBox(height: 32),
-        ],
-      ),
+                  _buildQuickActions(),
+
+                  _buildFeaturedCategories(),
+
+                  _buildHealthTips(),
+
+                  _buildRecommendations(),
+
+                  const SizedBox(height: 32),
+                ],
+              ),
+            ),
+            if (_showProductDetail && _selectedProduct != null)
+              _buildProductDetailModal(),
+          ],
+        );
+      },
     );
   }
 
@@ -500,7 +532,7 @@ class MainScreen extends ConsumerWidget {
             itemBuilder: (context, index) {
               final item = recommendations[index];
               return GestureDetector(
-                onTap: () {},
+                onTap: () => _showProductDetailModal(item),
                 child: Container(
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -582,6 +614,248 @@ class MainScreen extends ConsumerWidget {
             },
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildProductDetailModal() {
+    final product = _selectedProduct;
+    if (product == null) return const SizedBox.shrink();
+
+    return GestureDetector(
+      onTap: _hideProductDetailModal,
+      child: Container(
+        color: Colors.black.withAlpha(120),
+        child: Center(
+          child: GestureDetector(
+            onTap: () {},
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(40),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Header
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 20, 16, 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Подробно о продукте',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              letterSpacing: -0.4,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: _hideProductDetailModal,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.close_rounded,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(height: 1),
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Product header
+                          Row(
+                            children: [
+                              Text(
+                                product['emoji'] as String,
+                                style: const TextStyle(fontSize: 48),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      product['name'] as String,
+                                      style: const TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                        letterSpacing: -0.4,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      product['calories'] as String,
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black.withAlpha(128),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Rating section
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade50,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 12,
+                            ),
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.star_rounded,
+                                  size: 20,
+                                  color: const Color(0xFFFFC107),
+                                ),
+                                const SizedBox(width: 12),
+                                Text(
+                                  'Рейтинг: ${product['rating']} / 5.0',
+                                  style: const TextStyle(
+                                    fontSize: 15,
+                                    fontWeight: FontWeight.w600,
+                                    color: Colors.black,
+                                    letterSpacing: -0.2,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+
+                          // Recommendation section
+                          Container(
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF81C784).withAlpha(15),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: const Color(0xFF81C784).withAlpha(30),
+                                width: 1,
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF81C784).withAlpha(40),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.thumb_up_outlined,
+                                    color: Color(0xFF81C784),
+                                    size: 22,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Рекомендуемый продукт',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF2E7D32),
+                                          letterSpacing: -0.3,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Отличный выбор для здорового питания',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black.withAlpha(128),
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+
+                          // Action button
+                          GestureDetector(
+                            onTap: () {
+                              _hideProductDetailModal();
+                            },
+                            child: Container(
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF2E7D32),
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF2E7D32)
+                                        .withAlpha(40),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Добавить в избранное',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

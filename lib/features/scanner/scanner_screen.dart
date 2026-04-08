@@ -11,6 +11,7 @@ class _ScannerScreenState extends State<ScannerScreen>
     with SingleTickerProviderStateMixin {
   bool _isScanning = true;
   String? _lastScannedCode;
+  bool _showProductDetail = false;
   late AnimationController _animationController;
 
   @override
@@ -52,6 +53,18 @@ class _ScannerScreenState extends State<ScannerScreen>
     }
   }
 
+  void _showProductDetailModal() {
+    setState(() {
+      _showProductDetail = true;
+    });
+  }
+
+  void _hideProductDetailModal() {
+    setState(() {
+      _showProductDetail = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +96,12 @@ class _ScannerScreenState extends State<ScannerScreen>
               ],
             )
           : null,
-      body: _isScanning ? _buildScannerView() : _buildResultsView(),
+      body: Stack(
+        children: [
+          _isScanning ? _buildScannerView() : _buildResultsView(),
+          if (_showProductDetail) _buildProductDetailModal(),
+        ],
+      ),
     );
   }
 
@@ -274,26 +292,28 @@ class _ScannerScreenState extends State<ScannerScreen>
                   ),
                   const SizedBox(height: 32),
 
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.grey.shade200,
-                        width: 1,
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withAlpha(8),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
+                  GestureDetector(
+                    onTap: _showProductDetailModal,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                        border: Border.all(
+                          color: Colors.grey.shade200,
+                          width: 1,
                         ),
-                      ],
-                    ),
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withAlpha(8),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
                         Row(
                           children: [
                             const Text(
@@ -355,8 +375,7 @@ class _ScannerScreenState extends State<ScannerScreen>
                         ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 24),
+                  ),                  ),                  const SizedBox(height: 24),
 
                   Container(
                     decoration: BoxDecoration(
@@ -473,6 +492,303 @@ class _ScannerScreenState extends State<ScannerScreen>
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildProductDetailModal() {
+    return GestureDetector(
+      onTap: _hideProductDetailModal,
+      child: Container(
+        color: Colors.black.withAlpha(120),
+        child: Center(
+          child: GestureDetector(
+            onTap: () {},
+            child: SingleChildScrollView(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withAlpha(40),
+                      blurRadius: 24,
+                      offset: const Offset(0, 8),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Header с кнопкой закрытия
+                    Padding(
+                      padding:
+                          const EdgeInsets.fromLTRB(24, 20, 16, 20),
+                      child: Row(
+                        mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                        children: [
+                          const Text(
+                            'Подробно о продукте',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.black,
+                              letterSpacing: -0.4,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: _hideProductDetailModal,
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: Colors.grey.shade100,
+                                borderRadius:
+                                    BorderRadius.circular(12),
+                              ),
+                              child: const Icon(
+                                Icons.close_rounded,
+                                color: Colors.black,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const Divider(height: 1),
+                    Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Product header
+                          Row(
+                            children: [
+                              const Text(
+                                '🍗',
+                                style: TextStyle(fontSize: 48),
+                              ),
+                              const SizedBox(width: 16),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                  children: [
+                                    const Text(
+                                      'Куриное филе',
+                                      style: TextStyle(
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                        letterSpacing: -0.4,
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Text(
+                                      'Код: $_lastScannedCode',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w400,
+                                        color: Colors.black.withAlpha(128),
+                                        letterSpacing: -0.2,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 32),
+
+                          // Nutrition section
+                          Text(
+                            'Пищевая ценность (на 100г)',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black.withAlpha(180),
+                              letterSpacing: -0.3,
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          _buildDetailedInfoRow(
+                            'Калории',
+                            '165 ккал',
+                            Icons.local_fire_department_outlined,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildDetailedInfoRow(
+                            'Белки',
+                            '31 г',
+                            Icons.fitness_center_outlined,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildDetailedInfoRow(
+                            'Жиры',
+                            '3.6 г',
+                            Icons.opacity_outlined,
+                          ),
+                          const SizedBox(height: 12),
+                          _buildDetailedInfoRow(
+                            'Углеводы',
+                            '0 г',
+                            Icons.grain_outlined,
+                          ),
+                          const SizedBox(height: 32),
+
+                          // Recommendation section
+                          Container(
+                            decoration: BoxDecoration(
+                              color:
+                                  const Color(0xFF81C784).withAlpha(15),
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: const Color(0xFF81C784)
+                                    .withAlpha(30),
+                                width: 1,
+                              ),
+                            ),
+                            padding: const EdgeInsets.all(16),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 44,
+                                  height: 44,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFF81C784)
+                                        .withAlpha(40),
+                                    borderRadius:
+                                        BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.thumb_up_outlined,
+                                    color: Color(0xFF81C784),
+                                    size: 22,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const Text(
+                                        'Отличный источник белка',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w600,
+                                          color: Color(0xFF2E7D32),
+                                          letterSpacing: -0.3,
+                                        ),
+                                      ),
+                                      const SizedBox(height: 4),
+                                      Text(
+                                        'Идеален для спортсменов и здорового питания',
+                                        style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.black
+                                              .withAlpha(128),
+                                          letterSpacing: -0.2,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const SizedBox(height: 32),
+
+                          // Action buttons
+                          GestureDetector(
+                            onTap: () {
+                              _hideProductDetailModal();
+                            },
+                            child: Container(
+                              height: 56,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF2E7D32),
+                                borderRadius:
+                                    BorderRadius.circular(16),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: const Color(0xFF2E7D32)
+                                        .withAlpha(40),
+                                    blurRadius: 12,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'Добавить в избранное',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontWeight: FontWeight.w600,
+                                    letterSpacing: -0.3,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDetailedInfoRow(
+      String label, String value, IconData icon) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey.shade50,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(
+                icon,
+                size: 20,
+                color: const Color(0xFF2E7D32),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black,
+                  letterSpacing: -0.2,
+                ),
+              ),
+            ],
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF2E7D32),
+              letterSpacing: -0.3,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
