@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../catalog/catalog_screen.dart';
 import '../profile/profile_screen.dart';
+import 'main_screen.dart';
 
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -15,7 +16,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _currentIndex = 0;
 
   final List<Widget> _screens = [
-    const Center(child: Text('Главная', style: TextStyle(fontSize: 32))),
+    const MainScreen(),
     const CatalogScreen(),
     const Center(child: Text('Сканер', style: TextStyle(fontSize: 32))),
     const Center(child: Text('Рецепты', style: TextStyle(fontSize: 32))),
