@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../catalog/catalog_screen.dart';
 import '../profile/profile_screen.dart';
+import '../scanner/scanner_screen.dart';
 import 'main_screen.dart';
 
 
@@ -18,7 +19,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   final List<Widget> _screens = [
     const MainScreen(),
     const CatalogScreen(),
-    const Center(child: Text('Сканер', style: TextStyle(fontSize: 32))),
+    const ScannerScreen(),
     const Center(child: Text('Рецепты', style: TextStyle(fontSize: 32))),
     const ProfileScreen(),
   ];
