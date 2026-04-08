@@ -90,14 +90,12 @@ class _ScannerScreenState extends State<ScannerScreen>
   Widget _buildScannerView() {
     return Stack(
       children: [
-        // Background
         Container(
           color: Colors.black,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Camera frame simulation
                 Container(
                   width: 280,
                   height: 350,
@@ -110,7 +108,6 @@ class _ScannerScreenState extends State<ScannerScreen>
                   ),
                   child: Stack(
                     children: [
-                      // Gradient background
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
@@ -124,7 +121,6 @@ class _ScannerScreenState extends State<ScannerScreen>
                           ),
                         ),
                       ),
-                      // Scanning line animation
                       Center(
                         child: AnimatedBuilder(
                           animation: _animationController,
@@ -185,7 +181,6 @@ class _ScannerScreenState extends State<ScannerScreen>
           ),
         ),
 
-        // Bottom action button
         Positioned(
           bottom: 40,
           left: 24,
@@ -219,7 +214,6 @@ class _ScannerScreenState extends State<ScannerScreen>
   Widget _buildResultsView() {
     return Column(
       children: [
-        // Header
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -248,7 +242,6 @@ class _ScannerScreenState extends State<ScannerScreen>
           ),
         ),
 
-        // Results
         Expanded(
           child: SingleChildScrollView(
             child: Padding(
@@ -256,7 +249,6 @@ class _ScannerScreenState extends State<ScannerScreen>
               child: Column(
                 children: [
                   const SizedBox(height: 24),
-                  // Success badge
                   Container(
                     width: 60,
                     height: 60,
@@ -282,7 +274,6 @@ class _ScannerScreenState extends State<ScannerScreen>
                   ),
                   const SizedBox(height: 32),
 
-                  // Product info card
                   Container(
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -367,7 +358,6 @@ class _ScannerScreenState extends State<ScannerScreen>
                   ),
                   const SizedBox(height: 24),
 
-                  // Health status
                   Container(
                     decoration: BoxDecoration(
                       color: const Color(0xFF81C784).withAlpha(25),
@@ -430,7 +420,6 @@ class _ScannerScreenState extends State<ScannerScreen>
           ),
         ),
 
-        // Bottom actions
         SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
