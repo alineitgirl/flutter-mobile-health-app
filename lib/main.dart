@@ -2,15 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_match/domain/providers/providers.dart';
-import 'package:food_match/features/auth/auth_screen.dart';
-import 'package:food_match/features/home/home_screen.dart';
-import 'package:food_match/features/onboarding/onboarding_screen.dart';
+import 'package:smartfood/domain/providers/providers.dart';
+import 'package:smartfood/features/auth/auth_screen.dart';
+import 'package:smartfood/features/home/home_screen.dart';
+import 'package:smartfood/features/onboarding/onboarding_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'data/models/product.dart';
 import 'data/models/user_profile.dart';
 import 'core/constants/hive_boxes.dart';
-import 'package:food_match/firebase_options.dart';
+import 'package:smartfood/firebase_options.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

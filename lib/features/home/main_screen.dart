@@ -637,10 +637,10 @@ class _MainScreenState extends State<MainScreen> {
                         children: [
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.star_rounded,
                                 size: 18,
-                                color: const Color(0xFFFFC107),
+                                color: Color(0xFFFFC107),
                               ),
                               const SizedBox(width: 4),
                               Text(
@@ -783,10 +783,10 @@ class _MainScreenState extends State<MainScreen> {
                             ),
                             child: Row(
                               children: [
-                                Icon(
+                                const Icon(
                                   Icons.star_rounded,
                                   size: 20,
-                                  color: const Color(0xFFFFC107),
+                                  color: Color(0xFFFFC107),
                                 ),
                                 const SizedBox(width: 12),
                                 Text(

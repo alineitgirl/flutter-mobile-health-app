@@ -314,7 +314,7 @@ class _ScannerScreenState extends State<ScannerScreen>
           right: 0,
           child: Column(
             children: [
-              Text(
+              const Text(
                 'Наведите на штрих-код',
                 style: TextStyle(
                   color: Colors.white,
@@ -367,13 +367,13 @@ class _ScannerScreenState extends State<ScannerScreen>
 
     return [
       // Левый верх
-      Positioned(top: 0, left: 0, child: _Corner(len: len, thick: thick, color: color, top: true, left: true)),
+      const Positioned(top: 0, left: 0, child: _Corner(len: len, thick: thick, color: color, top: true, left: true)),
       // Правый верх
-      Positioned(top: 0, right: 0, child: _Corner(len: len, thick: thick, color: color, top: true, left: false)),
+      const Positioned(top: 0, right: 0, child: _Corner(len: len, thick: thick, color: color, top: true, left: false)),
       // Левый низ
-      Positioned(bottom: 0, left: 0, child: _Corner(len: len, thick: thick, color: color, top: false, left: true)),
+      const Positioned(bottom: 0, left: 0, child: _Corner(len: len, thick: thick, color: color, top: false, left: true)),
       // Правый низ
-      Positioned(bottom: 0, right: 0, child: _Corner(len: len, thick: thick, color: color, top: false, left: false)),
+      const Positioned(bottom: 0, right: 0, child: _Corner(len: len, thick: thick, color: color, top: false, left: false)),
     ];
   }
 
@@ -657,14 +657,14 @@ class _ScannerScreenState extends State<ScannerScreen>
                                 _nutriment('carbohydrates'),
                                 Icons.grain_outlined),
                             const SizedBox(height: 12),
-                            Row(
+                            const Row(
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 Text(
                                   'Подробнее →',
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: const Color(0xFF2E7D32),
+                                    color: Color(0xFF2E7D32),
                                     fontWeight: FontWeight.w600,
                                   ),
                                 ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_match/domain/providers/providers.dart';
+import 'package:smartfood/domain/providers/providers.dart';
 import '../../data/models/product.dart';
 
 class ProductDetailScreen extends ConsumerWidget {

@@ -7,10 +7,6 @@ import '../../data/models/product.dart';
 import '../../data/models/user_profile.dart';
 import '../../data/repositories/product_repository.dart';
  
-// ─── Firebase Auth ────────────────────────────────────────────────────────────
- 
-/// Стрим текущего пользователя Firebase — обновляется автоматически
-/// при входе, выходе и изменении токена.
 final authStateProvider = StreamProvider<User?>((ref) {
   return FirebaseAuth.instance.authStateChanges();
 });
@@ -21,8 +17,7 @@ class AuthNotifier {
   final _auth = FirebaseAuth.instance;
  
   User? get currentUser => _auth.currentUser;
- 
-  /// Вход по email + пароль
+
   Future<void> signIn(String email, String password) async {
     await _auth.signInWithEmailAndPassword(
       email: email.trim(),
@@ -30,7 +25,7 @@ class AuthNotifier {
     );
   }
  
-  /// Регистрация по email + пароль
+
   Future<void> signUp(String email, String password) async {
     await _auth.createUserWithEmailAndPassword(
       email: email.trim(),
@@ -38,18 +33,15 @@ class AuthNotifier {
     );
   }
  
-  /// Выход
   Future<void> signOut() async {
     await _auth.signOut();
   }
  
-  /// Сброс пароля
   Future<void> resetPassword(String email) async {
     await _auth.sendPasswordResetEmail(email: email.trim());
   }
 }
  
-// ─── User Profile ─────────────────────────────────────────────────────────────
  
 final userProfileProvider =
     StateNotifierProvider<UserProfileNotifier, UserProfile?>((ref) {
@@ -83,7 +75,6 @@ class UserProfileNotifier extends StateNotifier<UserProfile?> {
   }
 }
  
-// ─── Product Repository ───────────────────────────────────────────────────────
  
 final productRepositoryProvider = Provider<ProductRepository>((ref) {
   return ProductRepository();
@@ -95,7 +86,6 @@ final searchResultsProvider =
   return repo.searchProducts(query);
 });
  
-// ─── Favorites ────────────────────────────────────────────────────────────────
  
 final favoritesProvider =
     StateNotifierProvider<FavoritesNotifier, List<Product>>((ref) {
@@ -122,8 +112,6 @@ class FavoritesNotifier extends StateNotifier<List<Product>> {
     _loadFavorites();
   }
 }
- 
-// ─── Shopping List ────────────────────────────────────────────────────────────
  
 final shoppingListProvider =
     StateNotifierProvider<ShoppingListNotifier, List<Product>>((ref) {
@@ -153,8 +141,7 @@ class ShoppingListNotifier extends StateNotifier<List<Product>> {
     _loadShoppingList();
   }
 }
- 
-// ─── Onboarding ───────────────────────────────────────────────────────────────
+
  
 final onboardingCompletedProvider =
     StateNotifierProvider<OnboardingNotifier, bool>((ref) {

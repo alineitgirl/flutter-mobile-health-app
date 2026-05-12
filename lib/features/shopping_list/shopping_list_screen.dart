@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_match/domain/providers/providers.dart';
-import 'package:food_match/features/product_detail/product_detail_screen.dart';
+import 'package:smartfood/domain/providers/providers.dart';
+import 'package:smartfood/features/product_detail/product_detail_screen.dart';
 
 class ShoppingListScreen extends ConsumerWidget {
   const ShoppingListScreen({super.key});

@@ -1,27 +1,45 @@
-name: food_match
-description: SmartFood — персонализированный подбор продуктов
+name: smartfood
+description: SmartFood — мобильное приложение для персонализированного подбора продуктов питания с учётом аллергий, диет и пищевых ограничений.
 
 publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.2.0 <4.0.0'
-  flutter: ">=3.16.0"
+  sdk: '>=3.3.0 <4.0.0'
+  flutter: '>=3.19.0'
 
 dependencies:
   flutter:
     sdk: flutter
+  
   flutter_riverpod: ^2.5.1
+  
   hive: ^2.2.3
   hive_flutter: ^1.1.0
-  shared_preferences: ^2.3.0
-  intl: ^0.19.0
+  
+
+  go_router: ^14.2.0
+  
+
   http: ^1.2.2
   cached_network_image: ^3.4.1
+  
+  
   mobile_scanner: ^7.2.0
+  
   firebase_core: ^4.8.0
   firebase_auth: ^6.5.0
-  go_router: ^14.2.0
+  firebase_storage: 13.4.0   
+  
+  intl: ^0.19.0
+  shared_preferences: ^2.3.0
+  path_provider: ^2.1.4
+  permission_handler: ^11.3.1
+  url_launcher: ^6.3.0
+  
+  google_fonts: ^6.2.1
+  flutter_native_splash: ^2.4.0
 
 dev_dependencies:
   flutter_test:
@@ -34,6 +52,22 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
+  assets:
+    - assets/images/
+    - assets/icons/
+    - assets/models/          
+
 flutter_launcher_icons:
-  image_path_android: "assets/icon/app_icon.png"
   android: true
+  ios: true
+  image_path: "assets/icon/app_icon.png"
+  min_sdk_android: 21
+  adaptive_icon_background: "#2E7D32"
+  adaptive_icon_foreground: "assets/icon/foreground.png"
+
+flutter_native_splash:
+  color: "#2E7D32"
+  image: assets/images/splash_logo.png
+  android_12:
+    image: assets/images/splash_logo.png
+    color: "#2E7D32"

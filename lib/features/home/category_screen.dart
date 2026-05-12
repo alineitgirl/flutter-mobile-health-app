@@ -17,13 +17,11 @@ class CategoryScreen extends StatefulWidget {
 }
 
 class _CategoryScreenState extends State<CategoryScreen> {
-  // Mock products for the category
   late final List<Map<String, dynamic>> products;
 
   @override
   void initState() {
     super.initState();
-    // Generate mock products based on category
     products = _generateProductsForCategory();
   }
 
@@ -170,7 +168,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 const SizedBox(height: 24),
-                // Header
                 Row(
                   children: [
                     Text(
@@ -269,10 +266,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                       Row(
                         children: [
-                          Icon(
+                          const Icon(
                             Icons.star_rounded,
                             size: 18,
-                            color: const Color(0xFFFFC107),
+                            color: Color(0xFFFFC107),
                           ),
                           const SizedBox(width: 4),
                           Text(
@@ -292,10 +289,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
               },
             ),
           ),
-          SliverPadding(
-            padding: const EdgeInsets.all(24),
+          const SliverPadding(
+            padding: EdgeInsets.all(24),
             sliver: SliverToBoxAdapter(
-              child: const SizedBox(height: 32),
+              child: SizedBox(height: 32),
             ),
           ),
         ],

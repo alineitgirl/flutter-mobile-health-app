@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:food_match/domain/providers/providers.dart';
+import 'package:smartfood/domain/providers/providers.dart';
 import '../catalog/catalog_screen.dart';
 import '../profile/profile_screen.dart';
 import '../scanner/scanner_screen.dart';
@@ -64,7 +64,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     if (confirmed == true) {
       await ref.read(authProvider).signOut();
-      // _RootNavigator в main.dart автоматически переключит на AuthScreen
     }
   }
 

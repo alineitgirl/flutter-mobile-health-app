@@ -173,7 +173,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     const SizedBox(height: 40),
 
                     // Products section
-                    Text(
+                    const Text(
                       'Ингредиенты',
                       style: TextStyle(
                         fontSize: 20,
@@ -252,7 +252,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     const SizedBox(height: 32),
 
                     // Instructions section
-                    Text(
+                    const Text(
                       'Способ приготовления',
                       style: TextStyle(
                         fontSize: 20,

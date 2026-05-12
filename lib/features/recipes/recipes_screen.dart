@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'recipe_detail_screen.dart';
+import 'add_recipe_screen.dart'; 
 
 class RecipesScreen extends StatefulWidget {
   const RecipesScreen({super.key});
@@ -9,7 +10,6 @@ class RecipesScreen extends StatefulWidget {
 }
 
 class _RecipesScreenState extends State<RecipesScreen> {
-  // Mock recipes data
   final List<Map<String, dynamic>> recipes = [
     {
       'id': '1',
@@ -48,13 +48,13 @@ class _RecipesScreenState extends State<RecipesScreen> {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
+          const SliverAppBar(
             floating: true,
             snap: true,
             backgroundColor: Colors.white,
             surfaceTintColor: Colors.transparent,
             elevation: 0,
-            title: const Text(
+            title: Text(
               'Мои рецепты',
               style: TextStyle(
                 color: Colors.black,
@@ -93,14 +93,13 @@ class _RecipesScreenState extends State<RecipesScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Navigate to recipe builder
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Внскоре появится создание собственных рецептов'),
-              duration: Duration(seconds: 2),
-            ),
+        onPressed: () async {
+          final newRecipe = await Navigator.of(context).push<Map<String, dynamic>>(
+            MaterialPageRoute(builder: (_) => const AddRecipeScreen()),
           );
+          if (newRecipe!= null) {
+            setState(() => recipes.add(newRecipe));
+          }
         },
         backgroundColor: const Color(0xFF2E7D32),
         icon: const Icon(Icons.add),
