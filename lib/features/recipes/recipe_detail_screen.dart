@@ -522,7 +522,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           ),
                           const SizedBox(height: 32),
 
-                          // Close button
                           GestureDetector(
                             onTap: _hideProductDetailModal,
                             child: Container(

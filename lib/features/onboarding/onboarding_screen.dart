@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/models/user_profile.dart';
 import '../../domain/providers/providers.dart';
 import '../home/home_screen.dart';
@@ -26,6 +25,18 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
       'title': 'Ищите продукты',
       'description': 'Используйте каталог для поиска полезных продуктов.',
     },
+    {
+      'title': 'Сканируйте упаковки',
+      'description': 'Получайте информацию о продуктах с помощью камеры.',
+    },
+    {
+      'title': 'Создавайте рецепты',
+      'description': 'Составляйте свои рецепты и делитесь ими с другими.',
+    },
+    {
+      'title': 'Настройте свой профиль',
+      'description': 'Расскажите нам о себе, чтобы получать персональные рекомендации.',
+    }
   ];
 
   void _nextPage() {
@@ -48,9 +59,7 @@ class _OnboardingScreenState extends ConsumerState<OnboardingScreen> {
 
   Future<void> _completeOnboarding(UserProfile profile) async {
     await ref.read(userProfileProvider.notifier).saveProfile(profile);
-
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('onboarding_completed', true);
+    await ref.read(onboardingCompletedProvider.notifier).completeOnboarding();
 
     if (mounted) {
       Navigator.of(context).pushReplacement(

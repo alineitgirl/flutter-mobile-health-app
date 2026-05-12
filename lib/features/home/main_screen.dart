@@ -411,7 +411,7 @@ class _MainScreenState extends State<MainScreen> {
       },
       {
         'title': 'Завтрак - самый важный прием пищи',
-        'description': 'Полноценный завтрак обеспечивает энергией на весь день и улучшает концентрацию.',
+        'description': 'Полноценный завтрак обеспечивает энергией и улучшает концентрацию.',
         'icon': Icons.breakfast_dining,
         'color': const Color(0xFFFFA500),
       },
@@ -735,7 +735,6 @@ class _MainScreenState extends State<MainScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Product header
                           Row(
                             children: [
                               Text(
@@ -773,7 +772,6 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           const SizedBox(height: 24),
 
-                          // Rating section
                           Container(
                             decoration: BoxDecoration(
                               color: Colors.grey.shade50,
@@ -805,7 +803,6 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           const SizedBox(height: 24),
 
-                          // Recommendation section
                           Container(
                             decoration: BoxDecoration(
                               color: const Color(0xFF81C784).withAlpha(15),
@@ -864,7 +861,6 @@ class _MainScreenState extends State<MainScreen> {
                           ),
                           const SizedBox(height: 32),
 
-                          // Action button
                           GestureDetector(
                             onTap: () {
                               _hideProductDetailModal();

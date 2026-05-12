@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/constants/hive_boxes.dart';
 import '../../data/models/product.dart';
 import '../../data/models/user_profile.dart';
@@ -95,5 +96,32 @@ class ShoppingListNotifier extends StateNotifier<List<Product>> {
   Future<void> removeFromShoppingList(String id) async {
     await _box.delete(id);
     _loadShoppingList();
+  }
+}
+
+final onboardingCompletedProvider = StateNotifierProvider<OnboardingNotifier, bool>((ref) {
+  return OnboardingNotifier();
+});
+
+class OnboardingNotifier extends StateNotifier<bool> {
+  OnboardingNotifier() : super(false) {
+    _checkOnboardingStatus();
+  }
+
+  Future<void> _checkOnboardingStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    state = prefs.getBool('onboarding_completed') ?? false;
+  }
+
+  Future<void> completeOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_completed', true);
+    state = true;
+  }
+
+  Future<void> resetOnboarding() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboarding_completed', false);
+    state = false;
   }
 }

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:food_match/domain/providers/providers.dart';
 import 'package:food_match/features/home/home_screen.dart';
 import 'package:food_match/features/onboarding/onboarding_screen.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'data/models/product.dart';
 import 'data/models/user_profile.dart';
 import 'core/constants/hive_boxes.dart';
@@ -21,19 +21,16 @@ void main() async {
   await Hive.openBox<String>(HiveBoxes.favorites);
   await Hive.openBox<String>(HiveBoxes.shoppingList);
 
-  final prefs = await SharedPreferences.getInstance();
-  final onboardingCompleted = prefs.getBool('onboarding_completed') ?? false;
-
-  runApp(ProviderScope(child: MyApp(onboardingCompleted: onboardingCompleted)));
+  runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.onboardingCompleted});
-
-  final bool onboardingCompleted;
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final onboardingCompleted = ref.watch(onboardingCompletedProvider);
+
     return MaterialApp(
       title: 'SmartFood',
       debugShowCheckedModeBanner: false,
