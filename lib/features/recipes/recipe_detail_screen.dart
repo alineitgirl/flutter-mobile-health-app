@@ -111,7 +111,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 sliver: SliverList(
                   delegate: SliverChildListDelegate([
                     const SizedBox(height: 24),
-                    // Header
                     Row(
                       children: [
                         Text(
@@ -172,7 +171,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     ),
                     const SizedBox(height: 40),
 
-                    // Products section
                     const Text(
                       'Ингредиенты',
                       style: TextStyle(
@@ -251,7 +249,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                       ),
                     const SizedBox(height: 32),
 
-                    // Instructions section
                     const Text(
                       'Способ приготовления',
                       style: TextStyle(
@@ -290,7 +287,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                     ),
                     const SizedBox(height: 32),
 
-                    // Add to favorites button
                     GestureDetector(
                       onTap: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -408,7 +404,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Header
                     Padding(
                       padding: const EdgeInsets.fromLTRB(24, 20, 16, 20),
                       child: Row(
@@ -486,7 +481,6 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                           ),
                           const SizedBox(height: 32),
 
-                          // Nutrition section
                           Text(
                             'Пищевая ценность (на 100г)',
                             style: TextStyle(
