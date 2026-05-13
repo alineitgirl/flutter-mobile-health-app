@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:smartfood/core/themes/app_theme.dart';
 import 'package:smartfood/domain/providers/providers.dart';
 import 'package:smartfood/features/auth/auth_screen.dart';
 import 'package:smartfood/features/home/home_screen.dart';
@@ -40,6 +41,7 @@ class MyApp extends ConsumerWidget {
       title: 'SmartFood',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        textTheme: AppTheme.textTheme,
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF2E7D32)),
         useMaterial3: true,
       ),
